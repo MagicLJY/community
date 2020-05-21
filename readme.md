@@ -6,3 +6,5 @@
 [GithubAPI OauthAPP](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
 [OkHttp](https://square.github.io/okhttp/这里需要配置的是3.14.1，不要用最新版)
 [mvn的jar包仓库](mvnrepository.com找fastjson)
+[mybatis整合](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
+[H2数据库用户名密码设置](https://blog.csdn.net/tripleDemo/article/details/98888281)

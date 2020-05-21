@@ -29,6 +29,7 @@ public class GithubProvider {
         try (Response response = client.newCall(request).execute()) {
             String string =response.body().string();
             String token=string.split("&")[0].split("=")[1];
+            System.out.println(token);
             return token;
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,16 +38,20 @@ public class GithubProvider {
     }
     //携带accessToken参数访问user接口,返回user信息
     public GithubUser getUser(String accessToken){
+        System.out.println("getuser");
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("https://api.github.com/user?access_token="+accessToken)
                 .build();
+        System.out.println("token发送");
         try {
             //返回值
             Response response = client.newCall(request).execute();
+            //System.out.println("2");
             //从response中取出返回值，此时string是一个json
             String string = response.body().string();
-            //json转换为java对象
+            System.out.println(string);
+            //json转换为java对象，将string的前三个变量与user的前三个变量对应
             GithubUser githubUser = JSON.parseObject(string, GithubUser.class);
             return githubUser;
 
