@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.naming.Name;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
@@ -37,7 +40,7 @@ public class AuthorizeController {
     //session是通过HttpServletRequest得到的
     public String callback(@RequestParam(name="code")String code,
                            @RequestParam(name="state") String state,
-                           HttpServletRequest request){
+                           HttpServletResponse response){
         //给post传递的参数赋值
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
@@ -50,15 +53,22 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);                 //此处返回了user信息，并转换成了java对象
         if(githubUser!=null){
+            //信息获取成功后，将信息保存到database
             User user = new User();   //这个类并没有添加标签，所以这里直接new一个
-            user.setToken(UUID.randomUUID().toString());//用UUID的方式写token
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);//用UUID的方式写token
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));//强制转换一下类型
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-            //登录成功写cookie，session
-            request.getSession().setAttribute("user",githubUser);
+            //将token添加到cookie，这个cookie保存在浏览器，由此就可以根据浏览器的cookie来判断是否可以免密登录
+            //浏览器中的cookie通过request来获取
+            //当cookie里的token在数据库中时，则从数据库中读取user信息，不必再登录
+            response.addCookie(new Cookie("token",token));
+
+            //登录成功写session,用request
+            //request.getSession().setAttribute("user",githubUser);
             //不采用redirect的话地址不会改变，还是callback，但是会渲染成return的页面
             //采用redirect，地址url和页面都改变
             return "redirect:/";

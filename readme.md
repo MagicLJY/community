@@ -8,3 +8,5 @@
 [mvn的jar包仓库](mvnrepository.com找fastjson)
 [mybatis整合](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
 [H2数据库用户名密码设置](https://blog.csdn.net/tripleDemo/article/details/98888281)
+[mysql教程](https://www.runoob.com/mysql/mysql-connection.html)
+[flyway数据库管理工具](https://flywaydb.org/getstarted/firststeps/maven)
