@@ -1,13 +1,13 @@
-package com.discuss.community.model;
+package com.discuss.community.dto;
 
-import lombok.Data;
-import org.apache.ibatis.annotations.Insert;
+import com.discuss.community.model.User;
 
 /**
  * @author JY Lin
- * @time -2020-05-25-17:10
+ * @time -2020-05-28-16:08
  **/
-public class Question {
+//用于在首页显示问题
+public class QuestionDTO {
     private Integer id;
     private String title;
     private String description;
@@ -26,6 +26,8 @@ public class Question {
     public void setCommentCount(Integer commentCount) {
         this.commentCount = commentCount;
     }
+
+    private User user;
 
     public Integer getId() {
         return id;
@@ -97,5 +99,13 @@ public class Question {
 
     public void setLikeCount(Integer likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

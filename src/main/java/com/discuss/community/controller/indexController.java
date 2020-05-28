@@ -1,13 +1,17 @@
 package com.discuss.community.controller;
 
+import com.discuss.community.dto.QuestionDTO;
 import com.discuss.community.mapper.UserMapper;
 import com.discuss.community.model.User;
+import com.discuss.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author JY Lin
@@ -18,8 +22,12 @@ public class indexController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private QuestionService questionService;
+
     @GetMapping("/") //代表根目录，就是localhost
-    public String index(HttpServletRequest request){
+    public String index(HttpServletRequest request,
+                        Model model){
         //访问首页时，检测浏览器中的token是否与本地数据库中有对应，有的话直接免密登录
         Cookie[] cookies = request.getCookies();
         if(cookies !=null) {
@@ -34,6 +42,10 @@ public class indexController {
                 }
             }
         }
+
+        //获取问题
+        List<QuestionDTO> questionList =questionService.list();
+        model.addAttribute("questions",questionList);
         return "index";
     }
 }

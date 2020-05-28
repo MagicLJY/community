@@ -1,5 +1,7 @@
 package com.discuss.community.dto;
 
+import lombok.Data;
+
 /**
  * @author JY Lin
  * @time -2020-05-17-19:36

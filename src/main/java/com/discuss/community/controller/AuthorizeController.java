@@ -61,6 +61,7 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));//强制转换一下类型
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatar_url());
             userMapper.insert(user);
             //将token添加到cookie，这个cookie保存在浏览器，由此就可以根据浏览器的cookie来判断是否可以免密登录
             //浏览器中的cookie通过request来获取

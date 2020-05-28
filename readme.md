@@ -9,6 +9,8 @@
 [mybatis整合](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
 [H2数据库用户名密码设置](https://blog.csdn.net/tripleDemo/article/details/98888281)
 [mysql教程](https://www.runoob.com/mysql/mysql-connection.html)
+##工具
+[lombok：get、set方法管理](https://projectlombok.org/setup/maven)
 [flyway数据库管理工具](https://flywaydb.org/getstarted/firststeps/maven)
 ##bash
 [flyway执行]mvn flyway:migrate 
