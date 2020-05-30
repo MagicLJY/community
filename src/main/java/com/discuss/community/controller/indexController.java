@@ -1,5 +1,6 @@
 package com.discuss.community.controller;
 
+import com.discuss.community.dto.PaginationDTO;
 import com.discuss.community.dto.QuestionDTO;
 import com.discuss.community.mapper.UserMapper;
 import com.discuss.community.model.User;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +29,9 @@ public class indexController {
 
     @GetMapping("/") //代表根目录，就是localhost
     public String index(HttpServletRequest request,
-                        Model model){
+                        Model model,
+                        @RequestParam(name="page",defaultValue = "1")Integer page,
+                        @RequestParam(name="size",defaultValue = "5")Integer size){
         //访问首页时，检测浏览器中的token是否与本地数据库中有对应，有的话直接免密登录
         Cookie[] cookies = request.getCookies();
         if(cookies !=null) {
@@ -43,9 +47,9 @@ public class indexController {
             }
         }
 
-        //获取问题
-        List<QuestionDTO> questionList =questionService.list();
-        model.addAttribute("questions",questionList);
+        //获取问题列表
+        PaginationDTO pagination =questionService.list(page,size);
+        model.addAttribute("pagination",pagination);
         return "index";
     }
 }

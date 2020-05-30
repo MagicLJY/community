@@ -12,5 +12,6 @@
 ##工具
 [lombok：get、set方法管理](https://projectlombok.org/setup/maven)
 [flyway数据库管理工具](https://flywaydb.org/getstarted/firststeps/maven)
+[Dev Tools](https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#using-boot-devtools)
 ##bash
 [flyway执行]mvn flyway:migrate 
