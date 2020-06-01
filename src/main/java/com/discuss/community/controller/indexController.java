@@ -33,19 +33,7 @@ public class indexController {
                         @RequestParam(name="page",defaultValue = "1")Integer page,
                         @RequestParam(name="size",defaultValue = "5")Integer size){
         //访问首页时，检测浏览器中的token是否与本地数据库中有对应，有的话直接免密登录
-        Cookie[] cookies = request.getCookies();
-        if(cookies !=null) {
-            for (Cookie cookie : cookies) {              //寻找cookies[]中名字为token的值，找到数据库中对应的user信息
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    User user = userMapper.findByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);       //把user信息加入到session中，与前端（服务器）交互
-                    }
-                    break;
-                }
-            }
-        }
+        //在拦截器中实现了，如果获取了user信息那直接显示的就是登录后的界面，如果没获取到，就显示登录按钮
 
         //获取问题列表
         PaginationDTO pagination =questionService.list(page,size);

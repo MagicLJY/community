@@ -79,6 +79,7 @@ public class QuestionService {
         //根据分页信息设置sql：limit的偏移量，找出当前页应该显示的问题
         //size*(page-1)
         Integer offset = size * (page - 1);
+        //当前页要显示的问题
         List<Question> questions = questionMapper.listByUserId(userId,offset, size);  //offset是limit的偏移量
         //将question类和user类放到questionDTO中
         List<QuestionDTO> questionDTOList = new ArrayList<>();

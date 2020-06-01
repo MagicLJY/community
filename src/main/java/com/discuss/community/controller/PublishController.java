@@ -1,7 +1,6 @@
 package com.discuss.community.controller;
 
 import com.discuss.community.mapper.QuestionMapper;
-import com.discuss.community.mapper.UserMapper;
 import com.discuss.community.model.Question;
 import com.discuss.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -23,8 +21,6 @@ public class PublishController {
 
     @Autowired
     private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
 
     //get类型时，渲染页面
     @GetMapping("/publish")
@@ -59,20 +55,8 @@ public class PublishController {
             return "publish";
         }
         //当前登录的话就获取user信息，未登录就向model中添加未登录
-        User user=null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies !=null) {
-            for (Cookie cookie : cookies) {              //寻找cookies[]中名字为token的值，找到数据库中对应的user信息
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);       //把user信息加入到session中，与前端（服务器）交互
-                    }
-                    break;
-                }
-            }
-        }
+        //从拦截器获取user
+        User user =(User) request.getSession().getAttribute("user");
         if(user==null){
             model.addAttribute("error","用户未登录");
             return "publish";    //没有用户登录，就在本页显示未登录，此时前端界面已经改了
